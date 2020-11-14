@@ -35,7 +35,8 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
     rotation = Tween(begin: 0.0, end: 2 * Math.pi)
         .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
 
-    opacity = Tween(begin: 0.1, end: 1.0).animate(controller);
+    opacity = Tween(begin: 0.1, end: 1.0).animate(CurvedAnimation(
+        parent: controller, curve: Interval(0, .25, curve: Curves.easeOut)));
 
     controller.addListener(() {
       print('Status: ${controller.status}');
