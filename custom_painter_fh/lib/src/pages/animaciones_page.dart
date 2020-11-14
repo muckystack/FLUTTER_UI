@@ -83,7 +83,7 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
       animation: controller,
       child: _Rectangulo(),
       builder: (BuildContext context, Widget childRectangulo) {
-        print('Rotación: ' + rotation.value.toString());
+        // print('Opacidad: ' + opacity.value.toString());
         return Transform.translate(
           offset: Offset(moveToRight.value, 0.0),
           child: Transform.rotate(
