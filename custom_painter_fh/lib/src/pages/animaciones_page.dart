@@ -25,6 +25,7 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation<double> rotation;
+  Animation<double> opacity;
 
   @override
   void initState() {
@@ -33,6 +34,8 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
 
     rotation = Tween(begin: 0.0, end: 2 * Math.pi)
         .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
+
+    opacity = Tween(begin: 0.1, end: 1.0).animate(controller);
 
     controller.addListener(() {
       print('Status: ${controller.status}');
@@ -59,12 +62,24 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
     // Play
     controller.forward();
 
+    /**
+     * SI EL WIDGET DE RECTANGULO SE PASA DIRECTAMENTE COMO CHILD EN EL ANIMATEDBUILDER
+     * SOLO SE CONSTRUYE UNA VEZ Y SE PASA COMO REFERENCIA.
+     * 
+     * SI SE PONE DENTRO DEL BUILDER SE CONTRUYE CADA VEZ QUE SE CAMBIE EL BUILDER.
+     */
+
     return AnimatedBuilder(
       animation: controller,
-      // child: _Rectangulo(),
+      child: _Rectangulo(),
       builder: (BuildContext context, Widget child) {
         print('Rotación: ' + rotation.value.toString());
-        return Transform.rotate(angle: rotation.value, child: _Rectangulo());
+        return Transform.rotate(
+            angle: rotation.value,
+            child: Opacity(
+              opacity: opacity.value,
+              child: child,
+            ));
       },
     );
   }
