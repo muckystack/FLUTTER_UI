@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 class AnimacionesPage extends StatelessWidget {
@@ -48,10 +50,10 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
 
     return AnimatedBuilder(
       animation: controller,
-      child: _Rectangulo(),
+      // child: _Rectangulo(),
       builder: (BuildContext context, Widget child) {
         print('Rotación: ' + rotation.value.toString());
-        return Transform.rotate(angle: rotation.value, child: child);
+        return Transform.rotate(angle: rotation.value, child: _Rectangulo());
       },
     );
   }
