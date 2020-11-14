@@ -26,6 +26,7 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
   AnimationController controller;
   Animation<double> rotation;
   Animation<double> opacity;
+  Animation<double> moveToRight;
 
   @override
   void initState() {
@@ -36,7 +37,10 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
         .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
 
     opacity = Tween(begin: 0.1, end: 1.0).animate(CurvedAnimation(
-        parent: controller, curve: Interval(0, .25, curve: Curves.easeOut)));
+        parent: controller, curve: Interval(0.0, .25, curve: Curves.easeOut)));
+
+    moveToRight = Tween(begin: 0.0, end: 200.0)
+        .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
 
     controller.addListener(() {
       print('Status: ${controller.status}');
@@ -75,12 +79,15 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
       child: _Rectangulo(),
       builder: (BuildContext context, Widget child) {
         print('Rotación: ' + rotation.value.toString());
-        return Transform.rotate(
-            angle: rotation.value,
-            child: Opacity(
-              opacity: opacity.value,
-              child: child,
-            ));
+        return Transform.translate(
+          offset: Offset(moveToRight.value, 0.0),
+          child: Transform.rotate(
+              angle: rotation.value,
+              child: Opacity(
+                opacity: opacity.value,
+                child: child,
+              )),
+        );
       },
     );
   }
