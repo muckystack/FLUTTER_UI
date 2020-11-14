@@ -26,6 +26,7 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
   AnimationController controller;
   Animation<double> rotation;
   Animation<double> opacity;
+  Animation<double> opacityOut;
   Animation<double> moveToRight;
   Animation<double> enlarge;
 
@@ -39,6 +40,9 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
 
     opacity = Tween(begin: 0.1, end: 1.0).animate(CurvedAnimation(
         parent: controller, curve: Interval(0.0, .25, curve: Curves.easeOut)));
+
+    opacityOut = Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        parent: controller, curve: Interval(0.75, 1.0, curve: Curves.easeOut)));
 
     moveToRight = Tween(begin: 0.0, end: 200.0)
         .animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
@@ -89,7 +93,7 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado>
           child: Transform.rotate(
               angle: rotation.value,
               child: Opacity(
-                opacity: opacity.value,
+                opacity: opacity.value - opacityOut.value,
                 child: Transform.scale(
                     scale: enlarge.value, child: childRectangulo),
               )),
